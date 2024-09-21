@@ -1,0 +1,13 @@
+﻿@page "/"
+@inject HttpClient HttpClient
+
+<h3>HomePage</h3>
+
+@code {
+    private IEnumerable<Trail> trails = [];
+
+    protected override async Task OnInitializedAsync()
+    {
+        trails = await HttpClient.GetFromJsonAsync<IEnumerable<Trail>>("trails/trail-data.json") ?? [];
+    }
+}
