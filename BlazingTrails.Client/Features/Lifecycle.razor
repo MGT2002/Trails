@@ -1,0 +1,37 @@
+﻿<h1>Componet Lifecycle</h1>
+<p>Check the browser console for details...</p>
+
+@foreach (var i in greetings)
+{
+    <h4>i</h4>
+}
+
+@code {
+    private List<string> greetings = [];
+
+    public override async Task SetParametersAsync(ParameterView parameters)
+    {
+        Console.WriteLine("SetParametersAsync - Begin");
+        await base.SetParametersAsync(parameters);
+        Console.WriteLine("SetParametersAsync - End");
+    }
+    protected override void OnInitialized() => Console.WriteLine("OnInitialized");
+    protected override async Task OnInitializedAsync()
+    {
+        Console.WriteLine("OnInitializedAsync-Begin");
+        greetings.Add("1");
+        await Task.Delay(1000);
+        greetings.Add("2");
+        await Task.Delay(1000);
+        greetings.Add("3");
+        await Task.Delay(1000);
+        greetings.Add("End!");
+        Console.WriteLine("OnInitializedAsync-End");
+    }
+    protected override void OnParametersSet() => Console.WriteLine("OnParametersSet");
+    protected override async Task OnParametersSetAsync() => Console.WriteLine("OnParametersSetAsync");
+    protected override void OnAfterRender(bool firstRender) =>
+       Console.WriteLine($"OnAfterRender (First render: {firstRender})");
+    protected override async Task OnAfterRenderAsync(bool firstRender) =>
+    Console.WriteLine($"OnAfterRenderAsync (First render: {firstRender})");
+}

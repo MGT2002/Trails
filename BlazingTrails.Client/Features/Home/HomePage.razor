@@ -1,13 +1,29 @@
 ﻿@page "/"
 @inject HttpClient HttpClient
 
-<h3>HomePage</h3>
+<PageTitle>Blazing Trails</PageTitle>
+
+<Lifecycle></Lifecycle>
+
+@if (trails is null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <div class="grid">
+        @foreach (var trail in trails)
+        {
+            <TrailCard Trail="trail"></TrailCard>
+        }
+    </div>
+}
 
 @code {
-    private IEnumerable<Trail> trails = [];
+    private IEnumerable<Trail>? trails;
 
     protected override async Task OnInitializedAsync()
     {
-        trails = await HttpClient.GetFromJsonAsync<IEnumerable<Trail>>("trails/trail-data.json") ?? [];
+        trails = await HttpClient.GetFromJsonAsync<IEnumerable<Trail>>("trails/trail-data.json");
     }
 }
