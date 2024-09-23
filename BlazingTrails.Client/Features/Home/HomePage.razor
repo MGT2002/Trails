@@ -9,6 +9,7 @@
 }
 else
 {
+    <TrailDetails Trail="selectedTrail"></TrailDetails>
     <div class="grid">
         @foreach (var trail in trails)
         {
@@ -19,6 +20,7 @@ else
 
 @code {
     private IEnumerable<Trail>? trails;
+    private Trail? selectedTrail;
 
     protected override async Task OnInitializedAsync()
     {
