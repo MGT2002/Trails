@@ -13,7 +13,7 @@ else
     <div class="grid">
         @foreach (var trail in trails)
         {
-            <TrailCard Trail="trail"></TrailCard>
+            <TrailCard Trail="trail" OnSelected="HandleTrailSelected"></TrailCard>
         }
     </div>
 }
@@ -25,5 +25,10 @@ else
     protected override async Task OnInitializedAsync()
     {
         trails = await HttpClient.GetFromJsonAsync<IEnumerable<Trail>>("trails/trail-data.json");
+    }
+
+    private void HandleTrailSelected(Trail trail)
+    {
+        selectedTrail = trail;
     }
 }
