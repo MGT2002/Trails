@@ -14,8 +14,11 @@
 
 	<ItemGroup>
 		<Watch Include="**/*.scss" />
-		<Watch Remove="features\home\SearchFilter.razor.scss" />
+		<None Remove="Features\ManageTrails\FormSection.razor.scss" />
 		<Watch Remove="features\home\TrailSearch.razor.scss" />
+		<Watch Remove="Features\ManageTrails\FormSection.razor.scss" />
+		<Content Include="Features\ManageTrails\FormSection.razor.scss" />
+		<ProjectReference Include="..\BlazingTrails.Shared\BlazingTrails.Shared.csproj" />
 		<None Update="**/*.css" Watch="false" />
 	</ItemGroup>
 
