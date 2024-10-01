@@ -39,7 +39,7 @@ else if (errorMessage is not null)
     </div>
 }
 
-<EditForm Model="trail" OnValidSubmit="SubmitForm">
+<EditForm OnValidSubmit="SubmitForm" EditContext="editContext">
     <FluentValidationValidator />
 
     <FormSection Title="Basic Details"
@@ -144,6 +144,13 @@ else if (errorMessage is not null)
     private TrailDto trail = new TrailDto();
     private bool submitSuccessful;
     private string? errorMessage;
+    private EditContext editContext = null!;
+
+    protected override void OnInitialized()
+    {
+        editContext = new EditContext(trail);
+        editContext.SetFieldCssClassProvider(new BootstrapCssClassProvider());
+    }
 
     private async Task SubmitForm()
     {
