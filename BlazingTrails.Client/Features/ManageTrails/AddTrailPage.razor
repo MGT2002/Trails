@@ -63,6 +63,10 @@ else if (errorMessage is not null)
             <ValidationMessage For="@(() => trail.Location)" />
         </FormFieldSet>
 
+        <FormFieldSet>
+            <label for="trailImage" class="font-weight-bold text-secondary">Image</label>
+            <InputFile OnChange="LoadTrailImage" class="form-control-file" id="trailImage" accept=".png, .jpg, .jpeg"></InputFile>
+        </FormFieldSet>
     </FormSection>
 
     <FormSection Title="Difficulty"
@@ -150,6 +154,7 @@ else if (errorMessage is not null)
     private bool submitSuccessful;
     private string? errorMessage;
     private EditContext editContext = null!;
+    private IBrowserFile? trailImage;
 
     protected override void OnInitialized()
     {
@@ -168,8 +173,27 @@ else if (errorMessage is not null)
             return;
         }
 
+        if (trailImage is null)
+        {
+            submitSuccessful = true;
+            ResetForm();
+            return;
+        }
+
+        await ProcessImage(response.TrailId);
+    }
+
+    private void ResetForm()
+    {
         trail = new TrailDto();
         errorMessage = null;
-        submitSuccessful = true;
+        editContext = new EditContext(trail);
+        editContext.SetFieldCssClassProvider(new BootstrapCssClassProvider());
+        trailImage = null;
+    }
+
+    private void LoadTrailImage(InputFileChangeEventArgs e)
+    {
+        trailImage = e.File;
     }
 }

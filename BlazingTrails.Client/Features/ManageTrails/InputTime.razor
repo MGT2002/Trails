@@ -29,6 +29,11 @@
             hours = CurrentValue / 60;
             minutes = CurrentValue % 60;
         }
+        else
+        {
+            minutes = 0;
+            hours = 0;
+        }
     }
 
     private void SetHourValue(ChangeEventArgs args)
