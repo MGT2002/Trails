@@ -1,5 +1,5 @@
 using BlazingTrails.Client;
-using BlazingTrails.Client.Features.ManageTrails;
+using BlazingTrails.Client.Features.ManageTrails.AddTrail;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 

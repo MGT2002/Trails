@@ -2,10 +2,10 @@
 using MediatR;
 using System.Net.Http.Json;
 
-namespace BlazingTrails.Client.Features.ManageTrails;
+namespace BlazingTrails.Client.Features.ManageTrails.EditTrail;
 
-public class AddTrailHandler(HttpClient httpClient) : 
-    IRequestHandler<AddTrailRequest, AddTrailRequest.Response>
+public class EditTrailHandler(HttpClient httpClient)
+    //IRequestHandler<AddTrailRequest, AddTrailRequest.Response>
 {
     private readonly HttpClient httpClient = httpClient;
 

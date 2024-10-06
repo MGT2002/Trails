@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using BlazingTrails.Shared.Features.ManageTrails;
 
-namespace BlazingTrails.Client.Features.ManageTrails;
+namespace BlazingTrails.Client.Features.ManageTrails.Shared;
 
 public class UploadTrailImageHandler(HttpClient httpClient) :
     IRequestHandler<UploadTrailImageRequest, UploadTrailImageRequest.Response>
