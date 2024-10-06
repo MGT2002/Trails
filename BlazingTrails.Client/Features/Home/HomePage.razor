@@ -1,5 +1,6 @@
 ﻿@page "/"
 @inject HttpClient HttpClient
+@inject NavigationManager NavManager
 
 <PageTitle>Blazing Trails</PageTitle>
 
@@ -11,13 +12,24 @@ else
 {
     <TrailDetails Trail="selectedTrail"></TrailDetails>
 
-    <TrailSearch/>
+    <TrailSearch />
 
     <div class="grid">
         @foreach (var trail in trails)
         {
             <TrailCard Trail="trail" OnSelected="HandleTrailSelected"></TrailCard>
         }
+    </div>
+
+    <div class="container mt-4">
+        <div class="row mb-4">
+            <div class="col text-center">
+                <!-- Add trail button with Bootstrap classes -->
+                <button class="btn btn-primary btn-lg" @onclick="@(() => NavManager.NavigateTo("/add-trail"))">
+                    <i class="bi bi-plus-lg"></i> Add New Trail
+                </button>
+            </div>
+        </div>
     </div>
 }
 

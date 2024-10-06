@@ -64,7 +64,7 @@ else if (errorMessage is not null)
         </FormFieldSet>
 
         <FormFieldSet>
-            <label for="trailImage" class="font-weight-bold text-secondary">Image</label>
+            <label for="trailImage" class="font-weight-bold text-secondary mt-4">Image</label>
             <InputFile OnChange="LoadTrailImage" class="form-control-file" id="trailImage" accept=".png, .jpg, .jpeg"></InputFile>
         </FormFieldSet>
     </FormSection>
@@ -137,7 +137,7 @@ else if (errorMessage is not null)
             <div class="offset-4 col-8 text-end">
                 <button class="btn btn-outline-secondary"
                         type="button"
-                        @onclick="@(() => trail = new TrailDto())">
+                        @onclick="@(ResetForm)">
                     Reset
                 </button>
                 <button class="btn btn-primary"
@@ -186,7 +186,6 @@ else if (errorMessage is not null)
     private void ResetForm()
     {
         trail = new TrailDto();
-        errorMessage = null;
         editContext = new EditContext(trail);
         editContext.SetFieldCssClassProvider(new BootstrapCssClassProvider());
         trailImage = null;
@@ -199,7 +198,7 @@ else if (errorMessage is not null)
 
     private async Task ProcessImage(int trailId)
     {
-        var imageUploadResponse = await Mediator.Send(new UploadTrailImageRequest(trailId, trailImage));
+        var imageUploadResponse = await Mediator.Send(new UploadTrailImageRequest(trailId, trailImage!));
 
         if(string.IsNullOrWhiteSpace(imageUploadResponse.ImageName))
         {
