@@ -1,1 +1,71 @@
-﻿
+﻿@page "/edit-trail/{TrailId:int}"
+@inject IMediator Mediator
+
+<PageTitle>Edit Trail - Blazing Trails</PageTitle>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Edit Trail</li>
+    </ol>
+</nav>
+
+@if (isLoading)
+{    
+    <p>Loading trail...</p>
+}
+else
+{
+    <h3 class="mt-5 mb-4">Editing trail: @trail.Name</h3>
+
+    @if (submitSuccessful)
+    {
+        <SuccessAlert Message="Your trail has been edited successfully!" />
+    }
+    else if(errorMessage is not null)
+    {
+        <ErrorAlert Message="@errorMessage" />
+    }
+
+    <TrailForm OnSubmit="SubmitEditTrail" />
+}
+
+@code
+{
+    private bool isLoading;
+    private bool submitSuccessful;
+    private string? errorMessage;
+    private TrailDto trail = new TrailDto();
+
+    [Parameter]
+    public int TrailId { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        isLoading = true;
+
+        var response = await Mediator.Send(new GetTrailRequest(TrailId));
+
+        if (response.Trail is not null)
+        {
+            trail.Id = TrailId;
+            trail.Name = response.Trail.Name;
+            trail.Description = response.Trail.Description;
+            trail.Location = response.Trail.Location;
+            trail.Image = response.Trail.Image;
+            trail.Length = response.Trail.Length;
+            trail.TimeInMinutes = response.Trail.TimeInMinutes;
+            trail.Route.AddRange(response.Trail.RouteInstructions.Select(ri => new TrailDto.RouteInstruction
+            {
+                Stage = ri.Stage,
+                Description = ri.Description
+            }));
+        }
+        else
+        {
+            errorMessage = "There was a problem loading the trail.";
+        }
+
+        isLoading = false;
+    }
+}
