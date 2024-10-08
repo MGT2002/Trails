@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace BlazingTrails.Shared.Features.ManageTrails;
+namespace BlazingTrails.Shared.Features.ManageTrails.Shared;
 public class TrailDto
 {
     public int Id { get; set; }
@@ -10,11 +10,20 @@ public class TrailDto
     public int TimeInMinutes { get; set; }
     public int Length { get; set; }
     public List<RouteInstruction> Route { get; set; } = [];
+    public string? Image { get; set; }
+    public ImageAction ImageAction { get; set; }
     public class RouteInstruction
     {
         public int Stage { get; set; }
         public string Description { get; set; } = "";
     }
+}
+
+public enum ImageAction
+{
+    None,
+    Add,
+    Remove,
 }
 
 public class TrailValidator : AbstractValidator<TrailDto>

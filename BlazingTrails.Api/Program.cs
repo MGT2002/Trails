@@ -1,8 +1,8 @@
 using FluentValidation;
 using BlazingTrails.Api.Persistence;
-using BlazingTrails.Shared.Features.ManageTrails;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
+using BlazingTrails.Shared.Features.ManageTrails.Shared;
 
 var builder = WebApplication.CreateBuilder(args);
 
