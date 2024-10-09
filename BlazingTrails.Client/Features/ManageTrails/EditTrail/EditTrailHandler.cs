@@ -1,26 +1,25 @@
-﻿using System.Net.Http.Json;
-using BlazingTrails.Shared.Features.ManageTrails.AddTrail;
+﻿using MediatR;
+using BlazingTrails.Shared.Features.ManageTrails.EditTrail;
+using System.Net.Http.Json;
 
 namespace BlazingTrails.Client.Features.ManageTrails.EditTrail;
 
-public class EditTrailHandler(HttpClient httpClient)
-    //IRequestHandler<AddTrailRequest, AddTrailRequest.Response>
+public class EditTrailHandler(HttpClient httpClient) :
+    IRequestHandler<EditTrailRequest, EditTrailRequest.Response>
 {
     private readonly HttpClient httpClient = httpClient;
 
-    public async Task<AddTrailRequest.Response> Handle(AddTrailRequest request, CancellationToken cancellationToken)
+    public async Task<EditTrailRequest.Response> Handle(EditTrailRequest request, CancellationToken cancellationToken)
     {
-        var response = await httpClient.PostAsJsonAsync(AddTrailRequest.RouteTemplate, request, cancellationToken);
+        var response = await httpClient.PutAsJsonAsync(EditTrailRequest.RouteTemplate, request, cancellationToken);
 
         if (response.IsSuccessStatusCode)
         {
-            var trailId = await response.Content.ReadFromJsonAsync<int>(cancellationToken: cancellationToken);
-
-            return new AddTrailRequest.Response(trailId);
+            return new EditTrailRequest.Response(true);
         }
         else
         {
-            return new AddTrailRequest.Response(-1);
+            return new EditTrailRequest.Response(false);
         }
     }
 }
