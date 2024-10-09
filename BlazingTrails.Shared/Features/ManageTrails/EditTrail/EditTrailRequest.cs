@@ -5,7 +5,7 @@ using MediatR;
 namespace BlazingTrails.Shared.Features.ManageTrails.EditTrail;
 
 public record class EditTrailRequest(TrailDto Trail) :
-    IRequest<EditTrailRequest>
+    IRequest<EditTrailRequest.Response>
 {
     public const string RouteTemplate = "/api/trails";
     public record Response(bool IsSuccess);
