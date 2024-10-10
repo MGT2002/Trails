@@ -4,7 +4,7 @@ using BlazingTrails.Api.Persistence.Entities;
 using BlazingTrails.Shared.Features.ManageTrails.AddTrail;
 using Microsoft.AspNetCore.Mvc;
 
-namespace BlazingTrails.Api.Features.ManageTrails;
+namespace BlazingTrails.Api.Features.ManageTrails.AddTrails;
 
 public class AddTrailEndpoint(BlazingTrailsContext database) : EndpointBaseAsync
     .WithRequest<AddTrailRequest>
@@ -34,7 +34,7 @@ public class AddTrailEndpoint(BlazingTrailsContext database) : EndpointBaseAsync
         });
 
         await database.RouteInstructions.AddRangeAsync(routeInstructions, cancellationToken);
-        await database.SaveChangesAsync();
+        await database.SaveChangesAsync(cancellationToken);
 
         return Ok(trail.Id);
     }

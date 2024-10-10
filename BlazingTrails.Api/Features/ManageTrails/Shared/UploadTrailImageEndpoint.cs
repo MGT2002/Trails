@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Processing;
 
-namespace BlazingTrails.Api.Features.ManageTrails;
+namespace BlazingTrails.Api.Features.ManageTrails.Shared;
 
 public class UploadTrailImageEndpoint(BlazingTrailsContext database) : EndpointBaseAsync
     .WithRequest<int>
@@ -16,7 +16,7 @@ public class UploadTrailImageEndpoint(BlazingTrailsContext database) : EndpointB
 
     [HttpPost(UploadTrailImageRequest.RouteTemplate)]
     public override async Task<ActionResult<string>> HandleAsync(
-        [FromRoute]int trailId, CancellationToken cancellationToken = default)
+        [FromRoute] int trailId, CancellationToken cancellationToken = default)
     {
         var trail = await database.Trails
             .SingleOrDefaultAsync(x => x.Id == trailId, cancellationToken: cancellationToken);
@@ -43,6 +43,11 @@ public class UploadTrailImageEndpoint(BlazingTrailsContext database) : EndpointB
         using var image = Image.Load(file.OpenReadStream());
         image.Mutate(x => x.Resize(resizeOptions));
         await image.SaveAsJpegAsync(saveLocation, cancellationToken);
+
+        if (!string.IsNullOrWhiteSpace(trail.Image))
+        {
+            System.IO.File.Delete(Path.Combine(Directory.GetCurrentDirectory(), "Images", trail.Image));
+        }
 
         trail.Image = filename;
         await database.SaveChangesAsync(cancellationToken);
