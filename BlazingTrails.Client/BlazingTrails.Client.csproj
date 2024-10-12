@@ -23,6 +23,7 @@
 		<Watch Remove="Features\ManageTrails\FormSection.razor.scss" />
 		<Watch Remove="features\managetrails\InputTime.razor.scss" />
 		<Content Include="Features\ManageTrails\Shared\FormSection.razor.scss" />
+		<ProjectReference Include="..\BlazingTrails.ComponentLibrary\BlazingTrails.ComponentLibrary.csproj" />
 		<ProjectReference Include="..\BlazingTrails.Shared\BlazingTrails.Shared.csproj" />
 		<None Update="**/*.css" Watch="false" />
 	</ItemGroup>

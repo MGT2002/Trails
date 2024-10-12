@@ -1,0 +1,63 @@
+﻿@typeparam TItem
+
+<dic>
+    <div class="mb-3 text-end">
+        <div class="btn-group">
+            <button @onclick="@(() => mode = ViewMode.Grid)" title="Grid View" type="button"
+                class="btn @(mode == ViewMode.Grid ? "btn-secondary" : "btn-outline-secondary")">
+                <i class="bi bi-grid-fill"></i>    
+            </button>
+            <button @onclick="@(() => mode = ViewMode.Table)" title="Table View" type="button"
+                class="btn @(mode == ViewMode.Table ? "btn-secondary" : "btn-outline-secondary")">
+                <i class="bi bi-table"></i>    
+            </button>
+        </div>
+    </div>
+
+    @if (mode == ViewMode.Grid)
+    {
+        <div class="grid">
+            @foreach (var item in Items)
+            {
+                @GridTemplate(item);
+                
+            }
+        </div>
+    }
+    else if (mode == ViewMode.Table)
+    {
+        <table>
+            <thead>
+                <tr>
+                    @HeaderTemplate
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Items)
+                {
+                    <tr>
+                        @RowTemplate(item)
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</dic>
+
+@code {
+    private ViewMode mode = ViewMode.Grid;
+
+    [Parameter, EditorRequired]
+    public IEnumerable<TItem> Items { get; set; } = default!;
+
+    [Parameter, EditorRequired]
+    public RenderFragment<TItem> GridTemplate { get; set; } = default!;
+
+    [Parameter, EditorRequired]
+    public RenderFragment HeaderTemplate { get; set; } = default!;
+
+    [Parameter, EditorRequired]
+    public RenderFragment<TItem> RowTemplate { get; set; } = default!;
+
+    private enum ViewMode { Grid, Table }
+}
