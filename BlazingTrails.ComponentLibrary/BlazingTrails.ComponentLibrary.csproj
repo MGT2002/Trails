@@ -7,6 +7,12 @@
 			node_modules/.last-install
 		</NpmLastInstall>
 	</PropertyGroup>
+	<ItemGroup>
+	  <None Remove="Map\RouteMap.razor.scss" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Content Include="Map\RouteMap.razor.scss" />
+	</ItemGroup>
 
 	<ItemGroup>
 		<SupportedPlatform Include="browser" />

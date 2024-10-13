@@ -1,4 +1,4 @@
-export function initilize(hostElement)
+export function initialize(hostElement, routeMapComponent)
 {
     hostElement.map = L.map(hostElement).setView([51.700, -0.10], 3);
 
@@ -18,5 +18,26 @@ export function initilize(hostElement)
         let line = L.polyline(hostElement.waypoints.map(m => m.getLatLng()),
             { color: 'var(--brand)' }).addTo(hostElement.map);
         hostElement.lines.push(line);
+
+        routeMapComponent.invokeMethodAsync('WaypointAdded', e.latlng.lat, e.latlng.lng);
     });
+}
+
+export function deleteLastWaypoint(hostElement)
+{
+    if (hostElement.waypoints.length > 0)
+    {
+        let lastWaypoint = hostElement.waypoints[hostElement.waypoints.length - 1];
+        hostElement.map.removeLayer(lastWaypoint);
+        hostElement.waypoints.pop();
+
+        if (hostElement.lines.length > 0)
+        {
+            let lastLine = hostElement.lines[hostElement.lines.length - 1];
+            lastLine.remove(hostElement.map);
+            hostElement.lines.pop();
+
+            return `Deleted waypoint at latitude ${lastWaypoint.getLatLng().lat} longitude ${lastWaypoint.getLatLng().lng}`;
+        }
+    }
 }
