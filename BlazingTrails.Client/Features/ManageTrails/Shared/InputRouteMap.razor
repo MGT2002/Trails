@@ -16,7 +16,7 @@
         if (CurrentValue?.Count > 0)
         {
             waypoints.Clear();
-            waypoints.AddRange(CurrentValue.Select(x => new(x.Latitude, x.Longitude)));
+            waypoints.AddRange(CurrentValue.Select(x => new LatLong(x.Latitude, x.Longitude)));
         }
     }
 

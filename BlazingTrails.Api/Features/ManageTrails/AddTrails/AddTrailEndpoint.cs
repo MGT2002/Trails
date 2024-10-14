@@ -26,14 +26,14 @@ public class AddTrailEndpoint(BlazingTrailsContext database) : EndpointBaseAsync
 
         await database.Trails.AddAsync(trail, cancellationToken);
 
-        var routeInstructions = request.Trail.Route.Select(x => new RouteInstruction
+        var waypoints = request.Trail.Waypoints.Select(x => new Waypoint
         {
-            Stage = x.Stage,
-            Description = x.Description,
+            Latitude = x.Latitude,
+            Longitude = x.Longitude,
             Trail = trail
         });
 
-        await database.RouteInstructions.AddRangeAsync(routeInstructions, cancellationToken);
+        await database.Waypoints.AddRangeAsync(waypoints, cancellationToken);
         await database.SaveChangesAsync(cancellationToken);
 
         return Ok(trail.Id);

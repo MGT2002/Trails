@@ -20,7 +20,7 @@ public class EditTrailEndpoint(BlazingTrailsContext context) : EndpointBaseAsync
         CancellationToken cancellationToken = default)
     {
         var trail = await context.Trails
-            .Include(x => x.Route)
+            .Include(x => x.Waypoints)
             .SingleOrDefaultAsync(x => x.Id == request.Trail.Id, cancellationToken);
 
         if (trail is null)
@@ -33,10 +33,10 @@ public class EditTrailEndpoint(BlazingTrailsContext context) : EndpointBaseAsync
         trail.Location = request.Trail.Location;
         trail.TimeInMinutes = request.Trail.TimeInMinutes;
         trail.Length = request.Trail.Length;
-        trail.Route = request.Trail.Route.Select(ri => new RouteInstruction
+        trail.Waypoints = request.Trail.Waypoints.Select(w => new Waypoint
         {
-            Stage = ri.Stage,
-            Description = ri.Description,
+            Latitude = w.Latitude,
+            Longitude = w.Longitude,
             Trail = trail
         }).ToList();
 

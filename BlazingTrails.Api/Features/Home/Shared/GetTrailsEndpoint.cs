@@ -16,7 +16,7 @@ public class GetTrailsEndpoint(BlazingTrailsContext context) : EndpointBaseAsync
     public override async Task<ActionResult<GetTrailsRequest.Response>> HandleAsync(int request, CancellationToken cancellationToken = default)
     {
         var trails = await context.Trails
-            .Include(x => x.Route)
+            .Include(x => x.Waypoints)
             .ToListAsync(cancellationToken);
 
         var response = new GetTrailsRequest.Response(trails.Select(trail => new GetTrailsRequest.Trail(
