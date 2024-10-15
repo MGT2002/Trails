@@ -86,7 +86,8 @@ else
                     Description = x.Description,
                     Location = x.Location,
                     Length = x.Length,
-                    TimeInMinutes = x.TimeInMinutes
+                    TimeInMinutes = x.TimeInMinutes,
+                    Waypoints = x.Waypoints.Select(w => new ComponentLibrary.Map.LatLong(w.Latitude, w.Longitude)).ToList(),
                 });
         }
         catch (Exception ex)

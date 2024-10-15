@@ -1,4 +1,4 @@
-export function initialize(hostElement, routeMapComponent, existingWaypoints)
+export function initialize(hostElement, routeMapComponent, existingWaypoints, isReadOnly)
 {
     hostElement.map = L.map(hostElement).setView([51.700, -0.10], 3);
 
@@ -19,11 +19,13 @@ export function initialize(hostElement, routeMapComponent, existingWaypoints)
         hostElement.map.fitBounds(waypointsGroup.getBounds().pad(1));
     }
 
-    hostElement.map.on('click', function (e) {
-        addWaypoint(hostElement, e.latlng);
+    if (!isReadOnly) {
+        hostElement.map.on('click', function (e) {
+            addWaypoint(hostElement, e.latlng);
 
-        routeMapComponent.invokeMethodAsync('WaypointAdded', e.latlng.lat, e.latlng.lng);
-    });
+            routeMapComponent.invokeMethodAsync('WaypointAdded', e.latlng.lat, e.latlng.lng);
+        });
+    }
 }
 
 export function deleteLastWaypoint(hostElement)

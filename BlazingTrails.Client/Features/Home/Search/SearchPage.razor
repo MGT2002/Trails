@@ -1,7 +1,6 @@
 ﻿@page "/search/{searchterm}"
 @inject NavigationManager NavManager
 @inject IMediator Mediator
-@implements IDisposable
 
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
@@ -85,28 +84,19 @@ else
         var filters = new List<Func<Trail, bool>>();
         if (MaxLength is not null && MaxLength > 0)
         {
-            Console.WriteLine("1");
             filters.Add(x => x.Length <= MaxLength);
         }
         if (MaxTime is not null && MaxTime > 0)
         {
-            Console.WriteLine("2");
             filters.Add(x => x.TimeInMinutes <= MaxTime * 60);
         }
         if (filters.Any())
         {
-            Console.WriteLine("3");
             searchResults = cachedSearchResults.Where(trail => filters.All(filter => filter(trail)));
         }
         else
         {
-            Console.WriteLine("4");
             searchResults = cachedSearchResults;
         }
-    }
-
-    void IDisposable.Dispose()
-    {
-        Console.WriteLine("Dispose -> " + DateTime.Now);
     }
 }

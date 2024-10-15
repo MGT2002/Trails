@@ -1,4 +1,6 @@
-﻿<div class="drawer-wrapper @(isOpen ? "slide" : "")">
+﻿@using BlazingTrails.ComponentLibrary.Map
+
+<div class="drawer-wrapper @(isOpen ? "slide" : "")">
     <div class="drawer-mask"></div>
     <div class="drawer">
         @if (activeTrail is not null)
@@ -23,6 +25,12 @@
                         </span>
                     </div>
                     <p class="mt-4">@activeTrail.Description</p>
+                </div>
+                <div>
+                    @if (activeTrail.Waypoints.Any())
+                    {
+                        <RouteMap Waypoints="activeTrail.Waypoints" Width="100%" IsReadOnly />
+                    }
                 </div>
             </div>
             <div class="drawer-controls">

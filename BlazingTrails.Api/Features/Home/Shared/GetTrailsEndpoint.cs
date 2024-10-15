@@ -13,7 +13,7 @@ public class GetTrailsEndpoint(BlazingTrailsContext context) : EndpointBaseAsync
     private readonly BlazingTrailsContext context = context;
 
     [HttpGet(GetTrailsRequest.RouteTemplate)]
-    public override async Task<ActionResult<GetTrailsRequest.Response>> HandleAsync(int request, CancellationToken cancellationToken = default)
+    public override async Task<ActionResult<GetTrailsRequest.Response>> HandleAsync(int trailId, CancellationToken cancellationToken = default)
     {
         var trails = await context.Trails
             .Include(x => x.Waypoints)
@@ -26,7 +26,8 @@ public class GetTrailsEndpoint(BlazingTrailsContext context) : EndpointBaseAsync
             trail.Location,
             trail.TimeInMinutes,
             trail.Length,
-            trail.Description
+            trail.Description,
+            trail.Waypoints.Select(w => new GetTrailsRequest.Waypoint(w.Latitude, w.Longitude)).ToList()
             )));
 
         return Ok(response);
