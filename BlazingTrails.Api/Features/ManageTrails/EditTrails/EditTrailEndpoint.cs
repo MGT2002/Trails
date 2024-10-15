@@ -37,7 +37,6 @@ public class EditTrailEndpoint(BlazingTrailsContext context) : EndpointBaseAsync
         {
             Latitude = w.Latitude,
             Longitude = w.Longitude,
-            Trail = trail
         }).ToList();
 
         if (request.Trail.ImageAction == ImageAction.Remove)
@@ -46,7 +45,7 @@ public class EditTrailEndpoint(BlazingTrailsContext context) : EndpointBaseAsync
             trail.Image = null;
         }
 
-        await context.SaveChangesAsync(cancellationToken);
+        await context.SaveChangesAsync(true, cancellationToken);
 
         return Ok(true);
     }

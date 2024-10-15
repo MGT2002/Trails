@@ -55,7 +55,7 @@ else
             trail.Image = response.Trail.Image;
             trail.Length = response.Trail.Length;
             trail.TimeInMinutes = response.Trail.TimeInMinutes;
-            trail.Waypoints.AddRange(response.Trail.Waypoints.Select(w => new TrailDto.WaypointDto(w.Latitude, w.Longitude)));
+            trail.Waypoints = new(response.Trail.Waypoints.Select(w => new TrailDto.WaypointDto(w.Latitude, w.Longitude)));
         }
         else
         {
@@ -80,7 +80,7 @@ else
             this.trail.Location = trail.Location;
             this.trail.Length = trail.Length;
             this.trail.TimeInMinutes = trail.TimeInMinutes;
-            this.trail.Waypoints.AddRange(trail.Waypoints.Select(w => new TrailDto.WaypointDto(w.Latitude, w.Longitude)));
+            this.trail.Waypoints = new(trail.Waypoints.Select(w => new TrailDto.WaypointDto(w.Latitude, w.Longitude)));
 
             submitSuccessful = true;
 

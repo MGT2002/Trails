@@ -12,7 +12,7 @@ export function initialize(hostElement, routeMapComponent, existingWaypoints)
     hostElement.lines = [];
 
     if (existingWaypoints && existingWaypoints.length > 0) {
-        existingWaypoints.forEach(cord => addWaypoint(hostElement, cord));
+        existingWaypoints.forEach(cord => addWaypoint(hostElement, { "lat": cord.lat, "lng": cord.long }));
     }
     if (hostElement.waypoints.length > 0) {
         var waypointsGroup = new L.featureGroup(hostElement.waypoints);
