@@ -23,7 +23,7 @@
     [Parameter] public string Height { get; set; } = "500px";
     [Parameter] public string Width { get; set; } = "1000px";
     [Parameter]
-    public List<LatLong> Waypoints { get; set; } = new List<LatLong>();
+    public List<LatLong> Waypoints { get; set; } = [];
     [Parameter]
     public EventCallback<LatLong> OnWaypointAdded { get; set; }
     [Parameter]
@@ -49,9 +49,10 @@
 
     private async void DeleteLastWaypoint()
     {
-        if (routeMapModule is null)
+        if (routeMapModule is null || Waypoints.Count == 0)
             return;
 
+        Console.WriteLine(Waypoints.Count);
         var waypoint = await routeMapModule.InvokeAsync<LatLong>("deleteLastWaypoint", map);
         await OnWaypointDeleted.InvokeAsync(waypoint);
     }

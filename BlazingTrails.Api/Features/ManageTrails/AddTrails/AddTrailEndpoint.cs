@@ -21,19 +21,14 @@ public class AddTrailEndpoint(BlazingTrailsContext database) : EndpointBaseAsync
             Description = request.Trail.Description,
             Location = request.Trail.Location,
             TimeInMinutes = request.Trail.TimeInMinutes,
-            Length = request.Trail.Length
+            Length = request.Trail.Length,
+            Waypoints = request.Trail.Waypoints.Select(w => new Waypoint{
+                Latitude = w.Latitude,
+                Longitude = w.Longitude,
+            }).ToList(),
         };
 
         await database.Trails.AddAsync(trail, cancellationToken);
-
-        var waypoints = request.Trail.Waypoints.Select(x => new Waypoint
-        {
-            Latitude = x.Latitude,
-            Longitude = x.Longitude,
-            Trail = trail
-        });
-
-        await database.Waypoints.AddRangeAsync(waypoints, cancellationToken);
         await database.SaveChangesAsync(cancellationToken);
 
         return Ok(trail.Id);
