@@ -3,6 +3,7 @@ using BlazingTrails.Api.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 using BlazingTrails.Shared.Features.ManageTrails.Shared;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +12,16 @@ builder.Services.AddDbContext<BlazingTrailsContext>(options =>
 );
 builder.Services.AddControllers();
 builder.Services.AddValidatorsFromAssembly(typeof(TrailDto).Assembly);
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(options =>
+{
+    options.Authority = "https://dev-8b2sv13c44xprhww.us.auth0.com/";
+    options.Audience = "https://blazingtrailsapi.com";
+});
 
 var app = builder.Build();
 
@@ -30,6 +41,9 @@ app.UseStaticFiles(new StaticFileOptions()
 });
 
 app.UseRouting();
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapControllers();
 app.MapFallbackToFile("index.html");

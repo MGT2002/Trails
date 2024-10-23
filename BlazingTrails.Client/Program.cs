@@ -14,5 +14,10 @@ builder.Services.AddScoped(sp => new HttpClient
     BaseAddress = new Uri(builder.HostEnvironment.BaseAddress)
 });
 
-//builder.Services.AddOidcAuthentication();
+builder.Services.AddOidcAuthentication(options =>
+{
+    options.ProviderOptions.Authority = "https://dev-8b2sv13c44xprhww.us.auth0.com";
+    options.ProviderOptions.ClientId = "i0ckruXVm4GPWK2k0tYiozMOgMf6nVqk";
+    options.ProviderOptions.ResponseType = "code";
+});
 await builder.Build().RunAsync();
