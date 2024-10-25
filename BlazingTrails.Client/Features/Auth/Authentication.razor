@@ -6,14 +6,37 @@
 <RemoteAuthenticatorView Action="@Action">
     <LogOut>
         @{
+            Console.WriteLine("Logout section was ran.");
             var authority = (string?)Configuration["Auth0:Authority"];
             var clientId = (string?)Configuration["Auth0:ClientId"];
+            var redirectUri = (string?)Configuration["Auth0:RedirectUri"];
 
-            Navigation.NavigateTo($"{authority}/v2/logout?client_id={clientId}");
+            Navigation.NavigateTo($"{authority}/v2/logout?client_id={clientId}&redirectUri={redirectUri}");
         }
     </LogOut>
+    <LogInFailed>
+        <h1>@context</h1>
+        <p>Action {@Action}</p>
+        <p>@((string?)Configuration["Auth0:Authority"])</p>
+        <p>@((string?)Configuration["Auth0:Domain"])</p>
+        <p>@((string?)Configuration["Auth0:ClientId"])</p>
+    </LogInFailed>
 </RemoteAuthenticatorView>
 
 @code {
     [Parameter] public string? Action { get; set; }
+
+    protected override void OnInitialized()
+    {
+        if (Action == "login")
+        {
+            var authority = (string?)Configuration["Auth0:Authority"];
+            var clientId = (string?)Configuration["Auth0:ClientId"];
+            var redirectUri = (string?)Configuration["Auth0:RedirectUri"];
+
+            string uri = $"{authority}/authorize?client_id={clientId}&redirect_uri={redirectUri}&response_type=code&scope=openid%20profile%20email";
+
+            Navigation.NavigateTo(uri);
+        }
+    }
 }
