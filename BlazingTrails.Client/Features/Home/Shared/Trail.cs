@@ -9,6 +9,7 @@ public class Trail
     public string Description { get; set; } = "";
     public string? Image { get; set; } = "";
     public string Location { get; set; } = "";
+    public string Owner { get; set; } = "";
     public int TimeInMinutes { get; set; }
     public string TimeFormatted => $"{TimeInMinutes / 60}h {TimeInMinutes % 60}m";
     public int Length { get; set; }

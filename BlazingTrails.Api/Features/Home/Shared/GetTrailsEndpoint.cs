@@ -27,6 +27,7 @@ public class GetTrailsEndpoint(BlazingTrailsContext context) : EndpointBaseAsync
             trail.TimeInMinutes,
             trail.Length,
             trail.Description,
+            trail.Owner,
             trail.Waypoints.Select(w => new GetTrailsRequest.Waypoint(w.Latitude, w.Longitude)).ToList()
             )));
 
