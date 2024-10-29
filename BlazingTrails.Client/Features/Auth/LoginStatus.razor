@@ -1,23 +1,24 @@
 ﻿@inject NavigationManager Navigation
+@inject SignOutSessionStateManager SignOutManager
 
 <div class="container text-end">
     <AuthorizeView>
         <Authorized>
             <div>
                 Hello, @context.User.Identity!.Name
-                <a href="#" @onclick="Logout">Logout</a>
+                <a href="#" @onclick="async() => await Logout()">Logout</a>
             </div>
         </Authorized>
         <NotAuthorized>
-            <h1>In Not Auth</h1>
             <a href="authentication/login">Log in/Sign up</a>
         </NotAuthorized>
     </AuthorizeView>
 </div>
 
 @code {
-    private void Logout()
+    private async ValueTask Logout()
     {
-        Navigation.NavigateToLogout("authentication/logout");
+        await SignOutManager.SetSignOutState();
+        Navigation.NavigateTo("authentication/logout");
     }
 }

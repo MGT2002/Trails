@@ -19,8 +19,8 @@ builder.Services.AddAuthentication(options =>
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 }).AddJwtBearer(options =>
 {
-    options.Authority = "https://dev-8b2sv13c44xprhww.us.auth0.com/";
-    options.Audience = "https://blazingtrailsapi.com";
+    options.Authority = builder.Configuration["Auth0:Authority"];
+    options.Audience = builder.Configuration["Auth0:ApiIdentifier"];
 });
 
 var app = builder.Build();
