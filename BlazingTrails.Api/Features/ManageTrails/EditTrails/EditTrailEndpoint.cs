@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BlazingTrails.Api.Persistence.Entities;
 using BlazingTrails.Shared.Features.ManageTrails.Shared;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BlazingTrails.Api.Features.ManageTrails.EditTrails;
 
@@ -14,6 +15,7 @@ public class EditTrailEndpoint(BlazingTrailsContext context) : EndpointBaseAsync
 {
     private readonly BlazingTrailsContext context = context;
 
+    [Authorize]
     [HttpPut(EditTrailRequest.RouteTemplate)]
     public override async Task<ActionResult<bool>> HandleAsync(
         EditTrailRequest request,
@@ -24,9 +26,10 @@ public class EditTrailEndpoint(BlazingTrailsContext context) : EndpointBaseAsync
             .SingleOrDefaultAsync(x => x.Id == request.Trail.Id, cancellationToken);
 
         if (trail is null)
-        {
             return BadRequest("Trail could not be found.");
-        }
+
+        if(!trail.Owner.Equals(HttpContext.User.Identity!.Name, StringComparison.OrdinalIgnoreCase))
+            return Unauthorized();
 
         trail.Name = request.Trail.Name;
         trail.Description = request.Trail.Description;

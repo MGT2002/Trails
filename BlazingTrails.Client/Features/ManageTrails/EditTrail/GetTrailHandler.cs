@@ -1,19 +1,22 @@
-﻿using BlazingTrails.Shared.Features.ManageTrails.Shared;
+﻿using BlazingTrails.Shared;
+using BlazingTrails.Shared.Features.ManageTrails.Shared;
 using MediatR;
 using System.Net.Http.Json;
 
 namespace BlazingTrails.Client.Features.ManageTrails.EditTrail;
 
-public class GetTrailHandler(HttpClient httpClient) :
+public class GetTrailHandler(IHttpClientFactory httpClientFactory) :
 	IRequestHandler<GetTrailRequest, GetTrailRequest.Response?>
 {
-	private readonly HttpClient httpClient = httpClient;
+    private readonly IHttpClientFactory httpClientFactory = httpClientFactory;
 
-	public async Task<GetTrailRequest.Response?> Handle(GetTrailRequest request, CancellationToken cancellationToken)
+    public async Task<GetTrailRequest.Response?> Handle(GetTrailRequest request, CancellationToken cancellationToken)
 	{
 		try
 		{
-			return await httpClient.GetFromJsonAsync<GetTrailRequest.Response>(
+			var client  = httpClientFactory.CreateClient(Constants.SecureAPIClient);
+
+			return await client.GetFromJsonAsync<GetTrailRequest.Response>(
 				GetTrailRequest.RouteTemplate.Replace(("{trailId}"), request.TrailId.ToString()));
 		}
 		catch (HttpRequestException)
