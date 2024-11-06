@@ -25,7 +25,7 @@ public class UploadTrailImageEndpoint(BlazingTrailsContext database) : EndpointB
         if (trail is null)
             return BadRequest("Trail does not exist.");
 
-        if (!trail.Owner.Equals(HttpContext.User.Identity!.Name, StringComparison.OrdinalIgnoreCase))
+        if (!trail.Owner.Equals(HttpContext.User.Claims.FirstOrDefault(x => x.Type == "name")?.Value, StringComparison.OrdinalIgnoreCase))
             return Unauthorized();
 
         var file = Request.Form.Files[0];

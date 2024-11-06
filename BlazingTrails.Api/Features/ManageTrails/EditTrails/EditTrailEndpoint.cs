@@ -28,7 +28,7 @@ public class EditTrailEndpoint(BlazingTrailsContext context) : EndpointBaseAsync
         if (trail is null)
             return BadRequest("Trail could not be found.");
 
-        if(!trail.Owner.Equals(HttpContext.User.Identity!.Name, StringComparison.OrdinalIgnoreCase))
+        if(!trail.Owner.Equals(HttpContext.User.Claims.FirstOrDefault(x => x.Type == "name")?.Value, StringComparison.OrdinalIgnoreCase))
             return Unauthorized();
 
         trail.Name = request.Trail.Name;

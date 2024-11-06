@@ -24,7 +24,13 @@ builder.Services.AddOidcAuthentication(options =>
 {
     builder.Configuration.Bind("Auth0", options.ProviderOptions);
     options.ProviderOptions.ResponseType = "code";
-    options.ProviderOptions.AdditionalProviderParameters.Add("audience", "https://blazingtrailsapi.com");
+
+    options.ProviderOptions.DefaultScopes.Add("openid");
+    options.ProviderOptions.DefaultScopes.Add("profile");
+    options.ProviderOptions.DefaultScopes.Add("email");
+    //options.UserOptions.NameClaim = "name";
+
+    options.ProviderOptions.AdditionalProviderParameters.Add("audience", "https://blazingtrailsapi.com");//for jwt proper decryption
 });
 
 await builder.Build().RunAsync();
