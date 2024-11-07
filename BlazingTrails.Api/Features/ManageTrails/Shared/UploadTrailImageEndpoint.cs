@@ -1,5 +1,6 @@
 ﻿using Ardalis.ApiEndpoints;
 using BlazingTrails.Api.Persistence;
+using BlazingTrails.Shared;
 using BlazingTrails.Shared.Features.ManageTrails.Shared;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -25,7 +26,8 @@ public class UploadTrailImageEndpoint(BlazingTrailsContext database) : EndpointB
         if (trail is null)
             return BadRequest("Trail does not exist.");
 
-        if (!trail.Owner.Equals(HttpContext.User.Claims.FirstOrDefault(x => x.Type == "name")?.Value, StringComparison.OrdinalIgnoreCase))
+        if (!trail.Owner.Equals(HttpContext.User.Claims.FirstOrDefault(x => x.Type == "name")?.Value, StringComparison.OrdinalIgnoreCase)
+            && !HttpContext.User.IsInRole(Constants.Roles.Admin))
             return Unauthorized();
 
         var file = Request.Form.Files[0];

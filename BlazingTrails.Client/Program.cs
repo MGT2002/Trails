@@ -4,6 +4,7 @@ using BlazingTrails.Client.Features.ManageTrails.AddTrail;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using BlazingTrails.Client.Features.Auth;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
@@ -31,6 +32,6 @@ builder.Services.AddOidcAuthentication(options =>
     //options.UserOptions.NameClaim = "name";
 
     options.ProviderOptions.AdditionalProviderParameters.Add("audience", "https://blazingtrailsapi.com");//for jwt proper decryption
-});
+}).AddAccountClaimsPrincipalFactory<CustomUserFactory<RemoteUserAccount>>();
 
 await builder.Build().RunAsync();

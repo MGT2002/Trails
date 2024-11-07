@@ -1,9 +1,12 @@
 ﻿@page "/"
 @using Microsoft.AspNetCore.Components.Authorization
+@using BlazingTrails.Client.Test
 @inject NavigationManager NavManager
 @inject IMediator Mediator
 
 <PageTitle>Blazing Trails</PageTitle>
+
+@test
 
 @if (trails is null)
 {
@@ -25,7 +28,8 @@ else
             </Authorized>
             <NotAuthorized>
                 <div class="mb-4">
-                    <p class="font-italic text-center">Do you have an awesome trail you'd like to share? Please 
+                    <p class="font-italic text-center">
+                        Do you have an awesome trail you'd like to share? Please
                         <a href="authentication/login"> log in or sign up</a>.
                     </p>
                 </div>
@@ -53,7 +57,7 @@ else
                         @if (trail.Owner.Equals(context.User.Identity?.Name, StringComparison.OrdinalIgnoreCase))
                         {
                             <button @onclick="@(() => NavManager.NavigateTo($"/edit-trail/{trail.Id}"))"
-                            title="Edit" class="btn btn-outline-secondary">
+                                    title="Edit" class="btn btn-outline-secondary">
                                 <i class="bi bi-pencil"></i>
                             </button>
                         }
@@ -89,6 +93,22 @@ else
 @code {
     private IEnumerable<Trail>? trails;
     private Trail? selectedTrail;
+    private RenderFragment test = default!;
+
+    protected override void OnInitialized()
+    {
+        bool inTest = false;
+        if(inTest)
+        {
+            test = @<button @onclick="async () =>
+                        {
+                            var result = await Mediator.Send(new TestRequest());
+                            Console.WriteLine(result);
+                        }">
+                    Test
+                    </button>;
+        }
+    }
 
     protected override async Task OnInitializedAsync()
     {

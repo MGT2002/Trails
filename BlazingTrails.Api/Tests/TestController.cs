@@ -54,6 +54,18 @@ namespace BlazingTrails.Api.Tests
 
             return NotFound("User email not found.");
         }
+
+        [HttpGet(nameof(GetClaims))]
+        [Authorize]
+        public IActionResult GetClaims()
+        {
+            var claims = HttpContext.User.Claims
+                .Select(c => $"{c.Type} -> {c.Value}")
+                .ToList();
+            var res = string.Join(",\n", claims);
+
+            return Ok(res);
+        }
     }
 }
 
