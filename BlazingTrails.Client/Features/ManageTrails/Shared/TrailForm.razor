@@ -1,7 +1,10 @@
-﻿@using BlazingTrails.ComponentLibrary.Map
+﻿@using BlazingTrails.Client.State
+@using BlazingTrails.ComponentLibrary.Map
+@inject AppState AppState
 
 <EditForm OnValidSubmit="SubmitForm" EditContext="editContext">
     <FluentValidationValidator />
+    <FormStateTracker />
 
     <FormSection Title="Basic Details"
                  HelpText="This information is used to identify the trail
@@ -110,10 +113,15 @@
             trail.Waypoints.Clear();
             trail.Waypoints.AddRange(Trail.Waypoints.Select(wp => new TrailDto.WaypointDto(wp.Latitude, wp.Longitude)));
         }
+        else
+        {
+            trail = AppState.GetTrail();        
+        }
     }
 
     public void ResetForm()
     {
+        AppState.ClearTrail();
         trail = new TrailDto();
         editContext = new EditContext(trail);
         editContext.SetFieldCssClassProvider(new BootstrapCssClassProvider());
