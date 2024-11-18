@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using BlazingTrails.Client.Features.Auth;
 using BlazingTrails.Client.State;
+using Blazored.LocalStorage;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
@@ -36,5 +37,6 @@ builder.Services.AddOidcAuthentication(options =>
 }).AddAccountClaimsPrincipalFactory<CustomUserFactory<RemoteUserAccount>>();
 
 builder.Services.AddScoped<AppState>();
+builder.Services.AddBlazoredLocalStorage();
 
 await builder.Build().RunAsync();
