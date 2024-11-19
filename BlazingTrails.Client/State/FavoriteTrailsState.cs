@@ -28,8 +28,10 @@ public class FavoriteTrailsState(ILocalStorageService localStorageService)
     {
         if (favoriteTrails.Any(_ => _.Id == trail.Id))
             return;
+
         favoriteTrails.Add(trail);
         await localStorageService.SetItemAsync(FavoriteTrailsKey, favoriteTrails);
+        NotifyStateHasChanged();
     }
 
     public async Task RemoveFavorite(Trail trail)
@@ -43,7 +45,6 @@ public class FavoriteTrailsState(ILocalStorageService localStorageService)
 
     public bool IsFavorite(Trail trail)
     {
-        Console.WriteLine("1");
         return favoriteTrails.Any(_ => _.Id == trail.Id);
     }
     private void NotifyStateHasChanged() => OnChange?.Invoke();
