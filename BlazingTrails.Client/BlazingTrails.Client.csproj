@@ -21,12 +21,12 @@
 	<ItemGroup>
 		<Watch Include="**/*.scss" />
 		<None Remove="Features\ManageTrails\FormSection.razor.scss" />
-		<Watch Remove="features\home\HomePage.razor.scss" />
 		<Watch Remove="features\home\search\SearchFilter.razor.scss" />
 		<Watch Remove="features\home\TrailSearch.razor.scss" />
 		<Watch Remove="Features\ManageTrails\FormSection.razor.scss" />
 		<Watch Remove="features\managetrails\InputTime.razor.scss" />
 		<Watch Remove="Features\ManageTrails\Shared\InputRouteMap.razor.scss" />
+		<Watch Remove="features\shared\NoTrails.razor.scss" />
 		<Content Include="Features\ManageTrails\Shared\FormSection.razor.scss" />
 		<ProjectReference Include="..\BlazingTrails.ComponentLibrary\BlazingTrails.ComponentLibrary.csproj" />
 		<ProjectReference Include="..\BlazingTrails.Shared\BlazingTrails.Shared.csproj" />
