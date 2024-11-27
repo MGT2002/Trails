@@ -4,6 +4,7 @@
 @code {
     private BunitJSModuleInterop routeMapModule;
     private JSRuntimeInvocationHandler routeMapModuleInitializeInvocation;
+    private Fixture fixture = new();
 
     public RouteMapTests()
     {
@@ -24,7 +25,7 @@
     {
         var latLongResult = new LatLong(1m, 2m);
         var plannedInvocation = routeMapModule.Setup<LatLong>("deleteLastWaypoint", _ => true).SetResult(latLongResult);
-        var cut = Render(@<RouteMap></RouteMap>);
+        var cut = Render(@<RouteMap Waypoints="[fixture.Create<LatLong>()]"></RouteMap>);
         var deleteWaypointButton = cut.Find("button[title=\"Delete last waypoint\"]");
 
         deleteWaypointButton.Click();
