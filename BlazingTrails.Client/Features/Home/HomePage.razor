@@ -40,7 +40,9 @@ else
 
         <ViewSwitcher Items="trails" Context="trail">
             <GridTemplate>
-                <TrailCard Trail="trail" OnSelected="HandleTrailSelected"></TrailCard>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <TrailCard Trail="trail" OnSelected="HandleTrailSelected"></TrailCard>
+                </div>
             </GridTemplate>
             <HeaderTemplate>
                 <th>Name</th>

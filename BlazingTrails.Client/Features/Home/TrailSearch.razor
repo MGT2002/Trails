@@ -11,15 +11,22 @@
                placeholder="Search for a trail..."
                class="form-control form-control-lg" />
     </p>
+    <button @onclick="NavigateToSearchPage" type="button" class="btn btn-primary btn-lg mb-4">Search</button>
 </div>
 
 @code {
     private string searchTerm = "";
+    
+    private void NavigateToSearchPage()
+    {
+        NavManager.NavigateTo($"/search/{searchTerm}");
+    }
+
     private void SearchForTrail(KeyboardEventArgs args)
     {
         if (args.Key != "Enter")
             return;
 
-        NavManager.NavigateTo($"/search/{searchTerm}");
+        NavigateToSearchPage();
     }
 }
