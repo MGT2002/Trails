@@ -8,7 +8,10 @@
 
 <PageTitle>Blazing Trails</PageTitle>
 
-@test
+@if(test is not null)
+{
+    @test
+}
 
 @if (trails is null)
 {
@@ -87,10 +90,11 @@ else
 @code {
     private IEnumerable<Trail>? trails;
     private Trail? selectedTrail;
-    private RenderFragment test = default!;
+    private RenderFragment? test = default;
 
     protected override void OnInitialized()
     {
+        #if DEBUG
         bool inTest = true;
         if(inTest)
         {
@@ -102,6 +106,7 @@ else
                     Test
                     </button>;
         }
+        #endif
     }
 
     protected override async Task OnInitializedAsync()
